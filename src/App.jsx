@@ -11,6 +11,8 @@ import UserInput from './components/UserInput.jsx';
 import Results from './components/Results.jsx';
 import Questions from './components/Faq.jsx';
 import Footer from './components/Footer.jsx';
+import calculateDeliveryPrice from './util/calcualate-price.js';
+import UpButton from './components/UpButton.jsx';
 
 <link
   rel="stylesheet"
@@ -22,15 +24,15 @@ import Footer from './components/Footer.jsx';
 function App() {
   const [userInput, setUserInput] = useState({
     containerQuantity: 1,
-    grossWeight: 10
+    grossWeight: 10,
   });
 
-  function handleChange(inputIdentifier, newValue) {
-    setUserInput(prevUserInput => ({
+  const handleChange = (inputIdentifier, newValue) => {
+    setUserInput((prevUserInput) => ({
       ...prevUserInput,
-      [inputIdentifier]: newValue
+      [inputIdentifier]: newValue,
     }));
-  }
+  };
 
   return (
     <>
@@ -64,10 +66,11 @@ Customer satisfaction is at the core of our values, and we strive to build lasti
           },
         ]} />
       <Header title='Calculat your Order' />
-      <UserInput userInput={userInput} onChange={handleChange} />
-      <Results input={userInput} />
+      <UserInput onChange={handleChange} userInput={userInput} />
+      <Results calculateDeliveryPrice={() => calculateDeliveryPrice(userInput)} />
       <Header title='FAQ' />
       <Questions />
+      <UpButton />
       <Footer />
     </>
   );

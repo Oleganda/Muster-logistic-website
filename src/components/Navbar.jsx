@@ -7,7 +7,7 @@ import BootstrapNavbar from 'react-bootstrap/Navbar'; // Renamed the imported Na
 export default function CustomNavbar() {
     return (
         <BootstrapNavbar bg="dark" data-bs-theme="dark">
-            <Container>
+            <Container id='navbar'>
                 <BootstrapNavbar.Brand href="#home"><img src={logo} alt="" width={50} /></BootstrapNavbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link href="/#aboutUs">About Us</Nav.Link>

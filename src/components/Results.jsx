@@ -1,5 +1,12 @@
-export default function Results({ input }) {
+
+export default function Results({ calculateDeliveryPrice }) {
     return (
-        <p>Results</p>
-    )
+
+        <div className="resultPrice">
+            <p>Delivery Price: {calculateDeliveryPrice()} $</p>
+        </div>
+
+
+
+    );
 }

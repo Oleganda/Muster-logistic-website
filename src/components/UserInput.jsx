@@ -22,9 +22,11 @@ export default function UserInput({ onChange, userInput }) {
                         onChange={(event) => onChange('grossWeight', event.target.value)}
                     />
                 </p>
+            </div>
+            {/* <div>
                 <p>
                     <label htmlFor="from">FROM</label>
-                    <label htmlFor="austria"> Austria</label>
+                    <p> Austria</p>
                 </p>
                 <p>
                     <label>TO
@@ -60,7 +62,8 @@ export default function UserInput({ onChange, userInput }) {
                         </label>
                     </label>
                 </p>
-            </div>
+            </div> */}
         </section>
+
     );
 }
