@@ -1,7 +1,17 @@
 import Carousel from 'react-bootstrap/Carousel';
 import InfoSlides from './Slides.jsx';
+import { useLocation } from 'react-router-dom';
 
 export default function MainBanner() {
+    const location = useLocation();
+
+    const isAboutUsPage = location.pathname === '/about-us' || location.pathname === '/download';
+
+    if (isAboutUsPage) {
+        return null;
+    }
+
+
     return (
         <Carousel>
             <Carousel.Item interval={3000}>

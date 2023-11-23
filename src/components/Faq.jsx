@@ -1,7 +1,16 @@
 import { Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
+import { useLocation } from 'react-router-dom';
 
 export default function Questions() {
+    const location = useLocation();
+
+    const isFaq = location.pathname === '/about-us' || location.pathname === '/download';
+
+    if (isFaq) {
+        return null;
+    }
+
     return (
         <Container >
             <Accordion defaultActiveKey="0" flush >

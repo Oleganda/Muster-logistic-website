@@ -112,3 +112,7 @@ body {
   height: 600px;
   object-fit: cover;
 }
+
+p {
+  color: black;
+}

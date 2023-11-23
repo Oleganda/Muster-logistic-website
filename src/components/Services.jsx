@@ -1,8 +1,18 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useLocation } from 'react-router-dom';
 
 export default function Services({ servicesData }) {
+
+    const location = useLocation();
+
+    const isServicesPage = location.pathname === '/about-us' || location.pathname === '/download';
+
+    if (isServicesPage) {
+        return null;
+    }
+
     return (
         <Container id='ourServices'>
             <Row>

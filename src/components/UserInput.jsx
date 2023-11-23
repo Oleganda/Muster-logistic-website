@@ -1,4 +1,16 @@
+import { useLocation } from 'react-router-dom';
+
 export default function UserInput({ onChange, userInput }) {
+
+
+    const location = useLocation();
+
+    const isCalcualor = location.pathname === '/about-us' || location.pathname === '/download';
+
+    if (isCalcualor) {
+        return null;
+    }
+
     return (
         <section id="user-input">
             <div className="input-group">
