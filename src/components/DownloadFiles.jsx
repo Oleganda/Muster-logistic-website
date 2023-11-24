@@ -3,17 +3,18 @@ import { Container } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useState } from 'react';
 import { Image } from 'react-bootstrap';
-import deleteFile from '../assets/delete.svg';
 import doc from '../assets/doc.svg';
 import pdf from '../assets/pdf.svg';
-
-
-
-
+import DocumentCategorization from './Document Categorization.jsx';
 
 //Check if there are any files without overwrite previous file 
 const Download = () => {
     const [files, setFiles] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');    //categorize document. 
+
+    const handleCategoryChange = (category) => {                 //categorize document.Leave it here or move to another place
+        setSelectedCategory(category);
+    };
 
     const onDrop = useCallback((acceptedFiles) => {
         console.log(acceptedFiles);
@@ -26,11 +27,12 @@ const Download = () => {
         }
     }, [])
 
-    // Drag and Drop, Remove Button functions.
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] } });
 
     const removeFile = (name) => {
         setFiles(files => files.filter(file => file.name !== name))
+
     }
 
     return (
@@ -50,43 +52,68 @@ const Download = () => {
                     )}
                 </div>
                 {/* Preview */}
-                <ul>
-                    {files.map((file) => (
-                        <li key={file.name}>
-                            {file.name.endsWith('.pdf') && (
-                                <Image
-                                    src={pdf}
-                                    alt="PDF File"
-                                    width={100}
-                                    height={100}
-                                    onLoad={() => {
-                                        URL.revokeObjectURL(file.preview);
-                                    }}
-                                />
-                            )}
 
-                            {file.name.endsWith('.docx' || '.doc') && (
-                                <Image
-                                    src={doc}
-                                    alt="DOC File"
-                                    width={100}
-                                    height={100}
-                                    onLoad={() => {
-                                        URL.revokeObjectURL(file.preview);
-                                    }}
-                                />
-                            )}
+                <div style={{ display: 'flex' }}>
+                    <div>
+                        {files.map((file) => (
+                            <div key={file.name}>
+                                {file.name.endsWith('.pdf') && (
+                                    <Image
+                                        src={pdf}
+                                        alt="PDF File"
+                                        width={50}
+                                        height={50}
+                                        onLoad={() => {
+                                            URL.revokeObjectURL(file.preview);
+                                        }}
+                                    />
+                                )}
 
-                            <button type="button" onClick={() => removeFile(file.name)}>
-                                <img src={deleteFile} alt="Truck picture" width={20} />
-                            </button>
-                            <p>{file.name}</p>
-                        </li>
-                    ))}
-                </ul>
+                                {file.name.endsWith('.docx' || '.doc') && (
+                                    <Image
+                                        src={doc}
+                                        alt="DOC File"
+                                        width={50}
+                                        height={50}
+                                        onLoad={() => {
+                                            URL.revokeObjectURL(file.preview);
+                                        }}
+                                    />
+                                )}
+                                <span style={{
+                                    color: 'black',
+                                    margin: '20px'
+
+
+                                }}>{file.name}</span>
+
+                                <button type="button"
+                                    style={{
+                                        backgroundColor: '#fff',
+                                        border: '1px solid #ccc',
+                                        cursor: 'pointer',
+                                        marginTop: '10px',
+                                        float: 'right'
+                                    }}
+                                    onClick={() => removeFile(file.name)}>
+
+                                    Delete
+                                </button>
+
+                                <DocumentCategorization
+                                    selectedCategory={selectedCategory}
+                                    onCategoryChange={handleCategoryChange}
+                                />
+                            </div>
+
+                        ))}
+                    </div>
+                </div>
 
             </form>
+
         </Container>
+
     );
 };
 

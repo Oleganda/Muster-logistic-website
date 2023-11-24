@@ -14,6 +14,7 @@ import Footer from './components/Footer.jsx';
 import calculateDeliveryPrice from './util/calcualate-price.js';
 import Download from './components/DownloadFiles.jsx';
 import UpButton from './components/UpButton.jsx';
+import DocumentCategorization from './components/Document Categorization.jsx';
 
 function App() {
   const [userInput, setUserInput] = useState({
@@ -51,8 +52,11 @@ function App() {
           element={<>
             <Header title='Drop your file' />
             <Download />
+            {/* <DocumentCategorization /> */}
           </>
           } />
+
+
 
       </Routes>
 
