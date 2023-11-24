@@ -7,8 +7,8 @@ import doc from '../assets/doc.svg';
 import pdf from '../assets/pdf.svg';
 import DocumentCategorization from './Document Categorization.jsx';
 
-//Check if there are any files without overwrite previous file 
-const Download = () => {
+
+const Download = (props) => {
     const [files, setFiles] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');    //categorize document. 
 
@@ -16,6 +16,7 @@ const Download = () => {
         setSelectedCategory(category);
     };
 
+    //Check if there are any files without overwrite previous file 
     const onDrop = useCallback((acceptedFiles) => {
         console.log(acceptedFiles);
         if (acceptedFiles.length) {
@@ -39,19 +40,26 @@ const Download = () => {
         <Container>
 
             <form action="">
-                <div {...getRootProps()} style={dropzoneStyles}>
+                <div {...getRootProps()} style={{
+                    border: '2px dashed #cccccc',
+                    borderRadius: '4px',
+                    padding: '10px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    marginTop: '20px',
+                    marginBottom: '10px'
+                }}>
                     <input {...getInputProps()} />
                     {isDragActive ? (
                         <p>Drop the files here ...</p>
                     ) : (
-                        <p>Drag and drop files, or click HERE to select files
-                            <br />
-                            (only .pdf and .docx files will be accepted)
+                        <p>{props.description}
                         </p>
 
                     )}
                 </div>
-                {/* Preview */}
+
+                {/* Preview of files */}
 
                 <div style={{ display: 'flex' }}>
                     <div>
@@ -83,9 +91,8 @@ const Download = () => {
                                 <span style={{
                                     color: 'black',
                                     margin: '20px'
-
-
-                                }}>{file.name}</span>
+                                }}
+                                >{file.name}</span>
 
                                 <button type="button"
                                     style={{
@@ -117,12 +124,5 @@ const Download = () => {
     );
 };
 
-const dropzoneStyles = {
-    border: '2px dashed #cccccc',
-    borderRadius: '4px',
-    padding: '20px',
-    textAlign: 'center',
-    cursor: 'pointer',
-};
 
 export default Download;
