@@ -6,17 +6,22 @@ import { Image } from 'react-bootstrap';
 import doc from '../assets/doc.svg';
 import pdf from '../assets/pdf.svg';
 import DocumentCategorization from './Document Categorization.jsx';
-
+import SubmitButton from './SubmitButton.jsx';
 
 const Download = (props) => {
     const [files, setFiles] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');    //categorize document. 
 
-    const handleCategoryChange = (category) => {                 //categorize document.Leave it here or move to another place
-        setSelectedCategory(category);
+    const handleCategoryChange = (category, index) => {                 //categorize document. 
+        setFiles((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles[index].category = category;
+            return updatedFiles;
+        });
     };
 
-    //Check if there are any files without overwrite previous file 
+
+    //Check if there are any files without overwriting previous file 
     const onDrop = useCallback((acceptedFiles) => {
         console.log(acceptedFiles);
         if (acceptedFiles.length) {
@@ -28,42 +33,41 @@ const Download = (props) => {
         }
     }, [])
 
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] } });
-
     const removeFile = (name) => {
         setFiles(files => files.filter(file => file.name !== name))
+    }
 
+    //submit info
+    const handleSubmit = (sub) => {
+        sub.preventDefault();        //prevent browser reload/refresh
+
+        console.log('Form submitted!', files, selectedCategory);
     }
 
     return (
         <Container>
-
-            <form action="">
-                <div {...getRootProps()} style={{
-                    border: '2px dashed #cccccc',
-                    borderRadius: '4px',
-                    padding: '10px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    marginTop: '20px',
-                    marginBottom: '10px'
-                }}>
+            <form onSubmit={handleSubmit}>
+                <div {...getRootProps()}
+                    style=
+                    {{
+                        border: '2px dashed #cccccc',
+                        borderRadius: '4px',
+                        padding: '10px',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        marginTop: '20px',
+                        marginBottom: '10px'
+                    }}>
                     <input {...getInputProps()} />
-                    {isDragActive ? (
-                        <p>Drop the files here ...</p>
-                    ) : (
-                        <p>{props.description}
-                        </p>
-
-                    )}
+                    {isDragActive ? (<p>Drop the files here ...</p>) : (<p>{props.description}</p>)}
                 </div>
 
                 {/* Preview of files */}
 
                 <div style={{ display: 'flex' }}>
                     <div>
-                        {files.map((file) => (
+                        {files.map((file, index) => (
                             <div key={file.name}>
                                 {file.name.endsWith('.pdf') && (
                                     <Image
@@ -91,8 +95,7 @@ const Download = (props) => {
                                 <span style={{
                                     color: 'black',
                                     margin: '20px'
-                                }}
-                                >{file.name}</span>
+                                }}>{file.name}</span>
 
                                 <button type="button"
                                     style={{
@@ -102,27 +105,28 @@ const Download = (props) => {
                                         marginTop: '10px',
                                         float: 'right'
                                     }}
-                                    onClick={() => removeFile(file.name)}>
-
-                                    Delete
+                                    onClick={() => removeFile(file.name)}>Delete
                                 </button>
 
                                 <DocumentCategorization
-                                    selectedCategory={selectedCategory}
-                                    onCategoryChange={handleCategoryChange}
+                                    selectedCategory={file.category}
+                                    onCategoryChange={(category) =>
+                                        handleCategoryChange(category, index)
+                                    }
+                                    setFiles={setFiles}
+                                    index={index}// pass setFiles function
                                 />
-                            </div>
 
+                            </div>
                         ))}
                     </div>
                 </div>
-
+                {files.length > 0 && <SubmitButton />}
             </form>
 
         </Container>
 
     );
 };
-
 
 export default Download;

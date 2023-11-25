@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container, Form } from 'react-bootstrap';
 
-export default function DocumentCategorization({ selectedCategory, onCategoryChange }) {
+
+export default function DocumentCategorization({ selectedCategory, onCategoryChange, index }) {
 
     const handleCategoryChange = (event) => {
         const category = event.target.value;
-        onCategoryChange(category);
+        onCategoryChange(category, index);
     };
 
     return (
@@ -35,7 +36,6 @@ export default function DocumentCategorization({ selectedCategory, onCategoryCha
                     <Form.Control type="text" placeholder="Company Name" style={{ borderRadius: '0' }} />
                 </Form.Group>
             )}
-
         </Container>
 
     );

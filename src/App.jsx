@@ -14,7 +14,6 @@ import Footer from './components/Footer.jsx';
 import calculateDeliveryPrice from './util/calcualate-price.js';
 import Download from './components/DownloadFiles.jsx';
 import UpButton from './components/UpButton.jsx';
-import DocumentCategorization from './components/Document Categorization.jsx';
 import SubmitButton from './components/SubmitButton.jsx';
 
 function App() {
@@ -53,11 +52,11 @@ function App() {
           element={<>
             <Header title='Drop your file' />
             <Download description='Invoice 1 (drag and drop .pdf or .docx)' />
-            <Download description='Invoice 2 (drag and drop .pdf or .docx)' />
+            {/* <Download description='Invoice 2 (drag and drop .pdf or .docx)' />
             <Download description='Other Documents (drag and drop .pdf or .docx)' />
             <Download description='Other Documents (drag and drop .pdf or .docx)' />
-            <Download description='Other Documents (drag and drop .pdf or .docx)' />
-            <SubmitButton />
+            <Download description='Other Documents (drag and drop .pdf or .docx)' /> */}
+
           </>
           } />
 
