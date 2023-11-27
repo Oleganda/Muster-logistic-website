@@ -2,6 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useLocation } from 'react-router-dom';
+import Header from './Header';
+
 
 export default function Services({ servicesData }) {
 
@@ -15,6 +17,7 @@ export default function Services({ servicesData }) {
 
     return (
         <Container id='ourServices'>
+            <Header title='Our Services' />
             <Row>
                 {servicesData.map((service, index) => (
                     <Col key={index} md={4}>

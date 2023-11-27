@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 export default function Footer() {
     return (
         <>
-            <Nav className="justify-content-center border=warning" activeKey="/home" style={{ backgroundColor: 'rgb(41, 48, 48)' }}>
+            <Nav className="justify-content-center border=warning mt-5" activeKey="/home" style={{ backgroundColor: 'rgb(41, 48, 48)' }}>
 
                 <Nav.Item >
                     <Nav.Link href="/home" style={{ color: 'white' }}>About Us</Nav.Link >

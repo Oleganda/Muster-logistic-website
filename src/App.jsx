@@ -51,22 +51,12 @@ function App() {
           path='/download'
           element={<>
             <Header title='Drop your file' />
-            <Download description='Invoice 1 (drag and drop .pdf or .docx)' />
-            {/* <Download description='Invoice 2 (drag and drop .pdf or .docx)' />
-            <Download description='Other Documents (drag and drop .pdf or .docx)' />
-            <Download description='Other Documents (drag and drop .pdf or .docx)' />
-            <Download description='Other Documents (drag and drop .pdf or .docx)' /> */}
-
+            <Download description='Click to select multiple files or use drag-and-drop (.pdf or .docx)' />
           </>
           } />
-
-
-
       </Routes>
 
-      <Header title='Our Services' />
       <Services
-
         servicesData={[
           {
             img: 'https://cdn.pixabay.com/photo/2018/12/05/12/06/container-3857611_1280.jpg',
@@ -86,15 +76,9 @@ function App() {
           },
         ]} />
 
-
-      <Header title='Calculate your Order' />
       <UserInput onChange={handleChange} userInput={userInput} />
       <Results calculateDeliveryPrice={() => calculateDeliveryPrice(userInput)} />
-
-
-      <Header title='FAQ' />
       <Questions />
-
       <UpButton />
       <Footer />
 

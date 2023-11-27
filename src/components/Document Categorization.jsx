@@ -7,6 +7,7 @@ export default function DocumentCategorization({ selectedCategory, onCategoryCha
     const handleCategoryChange = (event) => {
         const category = event.target.value;
         onCategoryChange(category, index);
+
     };
 
     return (

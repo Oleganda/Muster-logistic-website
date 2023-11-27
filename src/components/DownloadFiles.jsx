@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useState } from 'react';
 import { Image } from 'react-bootstrap';
@@ -8,16 +8,20 @@ import pdf from '../assets/pdf.svg';
 import DocumentCategorization from './Document Categorization.jsx';
 import SubmitButton from './SubmitButton.jsx';
 
+//Download and Categorize documents
 const Download = (props) => {
     const [files, setFiles] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');    //categorize document. 
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [showSaveButton, setShowSaveButton] = useState('');
 
-    const handleCategoryChange = (category, index) => {                 //categorize document. 
+
+    const handleCategoryChange = (category, index) => {
         setFiles((prevFiles) => {
             const updatedFiles = [...prevFiles];
             updatedFiles[index].category = category;
             return updatedFiles;
         });
+        showButtonAfterSubmit();
     };
 
 
@@ -30,19 +34,37 @@ const Download = (props) => {
                 ...acceptedFiles.map(file =>
                     Object.assign(file, { preview: URL.createObjectURL(file) }))
             ])
+            showButtonAfterSubmit();
         }
     }, [])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] } });
+    //Drag and Drop function
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop, accept:
+            { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] }
+
+    });
+
+    //Remove files function    
     const removeFile = (name) => {
-        setFiles(files => files.filter(file => file.name !== name))
+        setFiles(files => files.filter(file => file.name !== name));
+        showButtonAfterSubmit();
     }
 
-    //submit info
-    const handleSubmit = (sub) => {
-        sub.preventDefault();        //prevent browser reload/refresh
-
+    //Submit button functiom 
+    const handleSubmit = (e) => {
+        e.preventDefault();        //prevent browser reload/refresh
         console.log('Form submitted!', files, selectedCategory);
+        showButtonAfterSubmit();
+    }
+
+    //Show Button, when all documents are saved 
+
+    const showButtonAfterSubmit = () => {
+        if (files) {
+            const isAllDataDownloaded = files.every((file) => file.category && file.name);
+            setShowSaveButton(isAllDataDownloaded);
+        }
     }
 
     return (
@@ -121,7 +143,38 @@ const Download = (props) => {
                         ))}
                     </div>
                 </div>
-                {files.length > 0 && <SubmitButton />}
+
+
+
+                {showSaveButton && (
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Button type="button" onClick={handleSubmit}
+
+                            style={{
+                                backgroundColor: 'green',
+                                borderColor: 'green',
+                                borderRadius: '0',
+                                marginTop: '10px',
+                                display: 'none',
+                            }}>
+                            Submit
+                        </Button>
+                    </div>
+                )}
+                <Button type="submit" disabled={!showSaveButton}
+
+                    style={{
+                        backgroundColor: 'rgb(65, 121, 133)',
+                        borderColor: 'rgb(65, 121, 133)',
+                        borderRadius: '0',
+                        marginTop: '10px'
+                    }}>
+                    Submit
+                </Button>
             </form>
 
         </Container>

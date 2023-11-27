@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { useLocation } from 'react-router-dom';
+import Header from './Header';
 
 export default function Questions() {
     const location = useLocation();
@@ -13,6 +14,7 @@ export default function Questions() {
 
     return (
         <Container >
+            <Header title='FAQ' />
             <Accordion defaultActiveKey="0" flush >
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>What is route optimization?</Accordion.Header>
