@@ -1,22 +1,33 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-export default function SubmitButton() {
+const SubmitButton = ({ handleSubmit, isSubmitDisabled, onClick, showFileDetails }) => {
+    const handleClick = () => {
+        // Call showFileDetails to set showFileDetails to true
+        showFileDetails();
+        // Call onClick if it's provided
+        if (onClick) {
+            onClick();
+        }
+    };
 
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-            <Button type='submit'
+        <>
+            <Button
+                type="submit"
+                onClick={handleClick}
                 style={{
                     backgroundColor: 'rgb(65, 121, 133)',
                     borderColor: 'rgb(65, 121, 133)',
                     borderRadius: '0',
-                }}>
+                    marginTop: '10px',
+                }}
+                disabled={isSubmitDisabled}
+            >
                 Submit
             </Button>
-        </div>
+        </>
     );
-}
+};
+
+export default SubmitButton;

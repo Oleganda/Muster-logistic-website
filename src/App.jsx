@@ -52,6 +52,7 @@ function App() {
           element={<>
             <Header title='Drop your file' />
             <Download description='Click to select multiple files or use drag-and-drop (.pdf or .docx)' />
+
           </>
           } />
       </Routes>

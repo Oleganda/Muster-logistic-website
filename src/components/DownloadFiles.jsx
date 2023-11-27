@@ -12,7 +12,19 @@ import SubmitButton from './SubmitButton.jsx';
 const Download = (props) => {
     const [files, setFiles] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [showSaveButton, setShowSaveButton] = useState('');
+    const [showSaveButton, setShowSaveButton] = useState(false);
+    const [showFileDetails, setShowFileDetails] = useState(false);
+
+    //Show Button, when all documents are uploaded
+    const showButtonAfterSubmit = () => {
+        const isRequiredInfoPresent = files.every((file) => file.category && file.name);
+
+        if (isRequiredInfoPresent) {
+            setShowSaveButton(false);
+        } else {
+            setShowSaveButton(true);
+        }
+    };
 
 
     const handleCategoryChange = (category, index) => {
@@ -21,11 +33,12 @@ const Download = (props) => {
             updatedFiles[index].category = category;
             return updatedFiles;
         });
+        setSelectedCategory(category);
         showButtonAfterSubmit();
     };
 
-
-    //Check if there are any files without overwriting previous file 
+    //Drag and Drop function
+    //Check if there are any files in dropon area. Prevents overwrite previous file 
     const onDrop = useCallback((acceptedFiles) => {
         console.log(acceptedFiles);
         if (acceptedFiles.length) {
@@ -38,7 +51,6 @@ const Download = (props) => {
         }
     }, [])
 
-    //Drag and Drop function
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop, accept:
             { 'application/pdf': ['.pdf'], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'] }
@@ -51,21 +63,22 @@ const Download = (props) => {
         showButtonAfterSubmit();
     }
 
-    //Submit button functiom 
+    //Submit Button function
     const handleSubmit = (e) => {
-        e.preventDefault();        //prevent browser reload/refresh
+        e.preventDefault();
         console.log('Form submitted!', files, selectedCategory);
         showButtonAfterSubmit();
-    }
+        setShowFileDetails(true); // Set showFileDetails to true after submitting the form
+    };
 
-    //Show Button, when all documents are saved 
-
-    const showButtonAfterSubmit = () => {
-        if (files) {
-            const isAllDataDownloaded = files.every((file) => file.category && file.name);
-            setShowSaveButton(isAllDataDownloaded);
-        }
-    }
+    //Display submitted files after clicking Submit Button
+    const displayFileDetails = () => {
+        return files.map((file) => (
+            <li key={file.name} style={{ color: 'black', listStyle: 'none' }}>
+                Name: {file.name}
+            </li>
+        ));
+    };
 
     return (
         <Container>
@@ -84,6 +97,7 @@ const Download = (props) => {
                     <input {...getInputProps()} />
                     {isDragActive ? (<p>Drop the files here ...</p>) : (<p>{props.description}</p>)}
                 </div>
+
 
                 {/* Preview of files */}
 
@@ -134,49 +148,34 @@ const Download = (props) => {
                                     selectedCategory={file.category}
                                     onCategoryChange={(category) =>
                                         handleCategoryChange(category, index)
+
                                     }
                                     setFiles={setFiles}
                                     index={index}// pass setFiles function
                                 />
 
+
                             </div>
                         ))}
                     </div>
+
                 </div>
 
+                <SubmitButton showSaveButton={showSaveButton}
+                    handleSubmit={handleSubmit}
+                    isSubmitDisabled={!showSaveButton}
+                    onClick={displayFileDetails}
+                    showFileDetails={() => setShowFileDetails(true)} // Set showFileDetails to false when needed
+                />
 
 
-                {showSaveButton && (
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <Button type="button" onClick={handleSubmit}
-
-                            style={{
-                                backgroundColor: 'green',
-                                borderColor: 'green',
-                                borderRadius: '0',
-                                marginTop: '10px',
-                                display: 'none',
-                            }}>
-                            Submit
-                        </Button>
-                    </div>
-                )}
-                <Button type="submit" disabled={!showSaveButton}
-
-                    style={{
-                        backgroundColor: 'rgb(65, 121, 133)',
-                        borderColor: 'rgb(65, 121, 133)',
-                        borderRadius: '0',
-                        marginTop: '10px'
-                    }}>
-                    Submit
-                </Button>
             </form>
-
+            {/* Display file details after the form is submitted */}
+            {showFileDetails && (
+                <section>
+                    <ul>{displayFileDetails()}</ul>
+                </section>
+            )}
         </Container>
 
     );
