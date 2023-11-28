@@ -6,7 +6,7 @@ import { Image } from 'react-bootstrap';
 import doc from '../assets/doc.svg';
 import pdf from '../assets/pdf.svg';
 import DocumentCategorization from './Document Categorization.jsx';
-import SubmitButton from './SubmitButton.jsx';
+import SaveButton from './SaveButton';
 
 //Download and Categorize documents
 const Download = (props) => {
@@ -63,13 +63,13 @@ const Download = (props) => {
         showButtonAfterSubmit();
     }
 
-    //Submit Button function
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted!', files, selectedCategory);
-        showButtonAfterSubmit();
-        setShowFileDetails(true); // Set showFileDetails to true after submitting the form
-    };
+    // //Submit Button function
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log('Form submitted!', files, selectedCategory);
+    //     showButtonAfterSubmit();
+    //     setShowFileDetails(true); // Set showFileDetails to true after submitting the form
+    // };
 
     //Display submitted files after clicking Submit Button
     const displayFileDetails = () => {
@@ -80,9 +80,29 @@ const Download = (props) => {
         ));
     };
 
+    const handleSubmitSave = (e) => {
+        e.preventDefault();
+        console.log('Form submitted!', files, selectedCategory);
+        showButtonAfterSubmit();
+        setShowFileDetails(true);
+
+        // Save functionality here (modify as needed)
+        files.forEach((file) => {
+            const blob = new Blob([file], { type: file.type });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    };
+
     return (
         <Container>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmitSave}>
                 <div {...getRootProps()}
                     style=
                     {{
@@ -161,13 +181,20 @@ const Download = (props) => {
 
                 </div>
 
-                <SubmitButton showSaveButton={showSaveButton}
-                    handleSubmit={handleSubmit}
-                    isSubmitDisabled={!showSaveButton}
-                    onClick={displayFileDetails}
-                    showFileDetails={() => setShowFileDetails(true)} // Set showFileDetails to false when needed
-                />
-
+                {/* Submit/Save Button */}
+                <Button
+                    type="submit"
+                    onClick={() => setShowFileDetails(true)}
+                    style={{
+                        backgroundColor: 'rgb(65, 121, 133)',
+                        borderColor: 'rgb(65, 121, 133)',
+                        borderRadius: '0',
+                        marginTop: '10px',
+                    }}
+                    disabled={!showSaveButton}
+                >
+                    Submit
+                </Button>
 
             </form>
             {/* Display file details after the form is submitted */}
@@ -176,6 +203,7 @@ const Download = (props) => {
                     <ul>{displayFileDetails()}</ul>
                 </section>
             )}
+
         </Container>
 
     );
