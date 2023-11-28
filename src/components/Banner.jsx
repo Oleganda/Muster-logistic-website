@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 export default function MainBanner() {
     const location = useLocation();
 
-    const isAboutUsPage = location.pathname === '/about-us' || location.pathname === '/download';
+    const isAboutUsPage = location.pathname === '/about-us' || location.pathname === '/download' || location.pathname === '/admin';
 
     if (isAboutUsPage) {
         return null;

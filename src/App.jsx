@@ -15,6 +15,8 @@ import calculateDeliveryPrice from './util/calcualate-price.js';
 import Download from './components/DownloadFiles.jsx';
 import UpButton from './components/UpButton.jsx';
 import SubmitButton from './components/SubmitButton.jsx';
+import AdminPanel from './components/AdminPanel.jsx';
+
 
 function App() {
   const [userInput, setUserInput] = useState({
@@ -22,12 +24,35 @@ function App() {
     grossWeight: 10,
   });
 
+  const [files, setFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
   const handleChange = (inputIdentifier, newValue) => {
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
       [inputIdentifier]: newValue,
     }));
   };
+
+  //Remove file as an Admin
+  const deleteFile = (index) => {
+    setFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles.splice(index, 1);
+      return updatedFiles;
+
+    });
+    console.log(prevFiles);
+    showButtonAfterSubmit();
+  };
+
+  const renameFile = (index) => {
+    setFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles.splice(index, 1);
+      return updatedFiles
+    })
+  }
 
   return (
     <Router>
@@ -47,15 +72,32 @@ function App() {
           </>}
         />
 
+
         <Route
           path='/download'
           element={<>
             <Header title='Drop your file' />
-            <Download description='Click to select multiple files or use drag-and-drop (.pdf or .docx)' />
+            <Download description='Click to select multiple files or use drag-and-drop (.pdf or .docx)'
+              uploadedFiles={uploadedFiles}
+              setUploadedFiles={setUploadedFiles}
+              deleteFile={deleteFile}
+              renameFile={renameFile}
+            />
 
           </>
           } />
+        {/* Admin Panel */}
+        <Route
+          path='/admin'
+          element={<>
+            <AdminPanel files={files}
+              deleteFile={deleteFile}
+              renameFile={renameFile} />
+
+          </>} />
+
       </Routes>
+
 
       <Services
         servicesData={[

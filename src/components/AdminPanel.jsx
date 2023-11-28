@@ -6,13 +6,14 @@ const AdminPanel = ({ files, deleteFile, renameFile }) => {
     const [newName, setNewName] = useState('');
 
     const handleRename = (index) => {
+        console.log('Renaming file at index', index);
         renameFile(index, newName);
         setNewName('');
     };
 
     return (
         <Container>
-            <h2>Admin Panel</h2>
+            <h1 style={{ color: 'black', textAlign: 'center', margin: '20px' }}>Admin Panel</h1>
 
             {/* Display list of uploaded files */}
             <Table striped bordered hover>
@@ -29,7 +30,12 @@ const AdminPanel = ({ files, deleteFile, renameFile }) => {
                             <td>{index + 1}</td>
                             <td>{file.name}</td>
                             <td>
-                                <Button variant="danger" onClick={() => deleteFile(index)}>
+                                <Button style={{
+                                    backgroundColor: 'rgb(65, 121, 133)',
+                                    borderColor: 'rgb(65, 121, 133)',
+                                    borderRadius: '0',
+                                    marginTop: '10px',
+                                }} onClick={() => deleteFile(index)}>
                                     Delete
                                 </Button>
                                 <input
@@ -38,7 +44,12 @@ const AdminPanel = ({ files, deleteFile, renameFile }) => {
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
                                 />
-                                <Button variant="info" onClick={() => handleRename(index)}>
+                                <Button style={{
+                                    backgroundColor: 'rgb(65, 121, 133)',
+                                    borderColor: 'rgb(65, 121, 133)',
+                                    borderRadius: '0',
+                                    marginTop: '10px',
+                                }} onClick={() => handleRename(index)}>
                                     Rename
                                 </Button>
                             </td>

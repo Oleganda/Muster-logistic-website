@@ -9,7 +9,7 @@ import DocumentCategorization from './Document Categorization.jsx';
 import SaveButton from './SaveButton';
 import DeleteButton from './DeleteButton.jsx'
 import FilePreviewItem from "./FilePreview.jsx";
-// import AdminPanel from './AdminPanal.jsx';
+
 
 
 //Download and Categorize documents
@@ -28,6 +28,8 @@ const Download = (props) => {
             setShowSaveButton(true);
         }
     };
+
+
 
     //Remove file
     const removeFile = (name) => {
@@ -64,13 +66,13 @@ const Download = (props) => {
 
     });
 
-    //Delete File Function   
+    //Show File Function. Everyone can see files, which have been submited. 
     const displayFileDetails = () => {
-        return files.map((file) => (
-            <li key={file.name} style={{ color: 'black', listStyle: 'none' }}>
-                Name: {file.name}
+        return (
+            <li style={{ color: 'black', listStyle: 'none' }}>
+                File has been submitted.
             </li>
-        ));
+        );
     };
 
     //Save and Submit uploaded Documents
@@ -92,6 +94,7 @@ const Download = (props) => {
             document.body.removeChild(a);
         });
     };
+
 
     return (
         <Container>
@@ -141,13 +144,10 @@ const Download = (props) => {
                 >
                     Submit
                 </Button>
-                {/* Admin Panel */}
-                {/* <AdminPanel files={files} deleteFile={deleteFile} renameFile={renameFile} /> */}
 
             </form>
 
             {/* Display files details after the form is submitted */}
-
             {showFileDetails && (
                 <section>
                     <ul>{displayFileDetails()}</ul>

@@ -7,7 +7,7 @@ export default function UserInput({ onChange, userInput }) {
 
     const location = useLocation();
 
-    const isCalcualor = location.pathname === '/about-us' || location.pathname === '/download';
+    const isCalcualor = location.pathname === '/about-us' || location.pathname === '/download' || location.pathname === '/admin';
 
     if (isCalcualor) {
         return null;
