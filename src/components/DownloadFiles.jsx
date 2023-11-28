@@ -7,6 +7,10 @@ import doc from '../assets/doc.svg';
 import pdf from '../assets/pdf.svg';
 import DocumentCategorization from './Document Categorization.jsx';
 import SaveButton from './SaveButton';
+import DeleteButton from './DeleteButton.jsx'
+import FilePreviewItem from "./FilePreview.jsx";
+// import AdminPanel from './AdminPanal.jsx';
+
 
 //Download and Categorize documents
 const Download = (props) => {
@@ -18,7 +22,6 @@ const Download = (props) => {
     //Show Button, when all documents are uploaded
     const showButtonAfterSubmit = () => {
         const isRequiredInfoPresent = files.every((file) => file.category && file.name);
-
         if (isRequiredInfoPresent) {
             setShowSaveButton(false);
         } else {
@@ -26,7 +29,11 @@ const Download = (props) => {
         }
     };
 
-
+    //Remove file
+    const removeFile = (name) => {
+        setFiles((files) => files.filter((file) => file.name !== name));
+        showButtonAfterSubmit();
+    };
     const handleCategoryChange = (category, index) => {
         setFiles((prevFiles) => {
             const updatedFiles = [...prevFiles];
@@ -57,21 +64,7 @@ const Download = (props) => {
 
     });
 
-    //Remove files function    
-    const removeFile = (name) => {
-        setFiles(files => files.filter(file => file.name !== name));
-        showButtonAfterSubmit();
-    }
-
-    // //Submit Button function
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log('Form submitted!', files, selectedCategory);
-    //     showButtonAfterSubmit();
-    //     setShowFileDetails(true); // Set showFileDetails to true after submitting the form
-    // };
-
-    //Display submitted files after clicking Submit Button
+    //Delete File Function   
     const displayFileDetails = () => {
         return files.map((file) => (
             <li key={file.name} style={{ color: 'black', listStyle: 'none' }}>
@@ -80,13 +73,13 @@ const Download = (props) => {
         ));
     };
 
+    //Save and Submit uploaded Documents
     const handleSubmitSave = (e) => {
         e.preventDefault();
         console.log('Form submitted!', files, selectedCategory);
         showButtonAfterSubmit();
         setShowFileDetails(true);
 
-        // Save functionality here (modify as needed)
         files.forEach((file) => {
             const blob = new Blob([file], { type: file.type });
             const url = URL.createObjectURL(blob);
@@ -103,82 +96,35 @@ const Download = (props) => {
     return (
         <Container>
             <form onSubmit={handleSubmitSave}>
-                <div {...getRootProps()}
-                    style=
-                    {{
+                <div
+                    {...getRootProps()}
+                    style={{
                         border: '2px dashed #cccccc',
                         borderRadius: '4px',
                         padding: '10px',
                         textAlign: 'center',
                         cursor: 'pointer',
                         marginTop: '20px',
-                        marginBottom: '10px'
-                    }}>
+                        marginBottom: '10px',
+                    }}
+                >
                     <input {...getInputProps()} />
-                    {isDragActive ? (<p>Drop the files here ...</p>) : (<p>{props.description}</p>)}
+                    {isDragActive ? <p>Drop the files here ...</p> : <p>{props.description}</p>}
                 </div>
 
-
                 {/* Preview of files */}
-
-                <div style={{ display: 'flex' }}>
-                    <div>
+                <div>
+                    <div style={{ display: 'inline-block' }}>
                         {files.map((file, index) => (
-                            <div key={file.name}>
-                                {file.name.endsWith('.pdf') && (
-                                    <Image
-                                        src={pdf}
-                                        alt="PDF File"
-                                        width={50}
-                                        height={50}
-                                        onLoad={() => {
-                                            URL.revokeObjectURL(file.preview);
-                                        }}
-                                    />
-                                )}
-
-                                {file.name.endsWith('.docx' || '.doc') && (
-                                    <Image
-                                        src={doc}
-                                        alt="DOC File"
-                                        width={50}
-                                        height={50}
-                                        onLoad={() => {
-                                            URL.revokeObjectURL(file.preview);
-                                        }}
-                                    />
-                                )}
-                                <span style={{
-                                    color: 'black',
-                                    margin: '20px'
-                                }}>{file.name}</span>
-
-                                <button type="button"
-                                    style={{
-                                        backgroundColor: '#fff',
-                                        border: '1px solid #ccc',
-                                        cursor: 'pointer',
-                                        marginTop: '10px',
-                                        float: 'right'
-                                    }}
-                                    onClick={() => removeFile(file.name)}>Delete
-                                </button>
-
-                                <DocumentCategorization
-                                    selectedCategory={file.category}
-                                    onCategoryChange={(category) =>
-                                        handleCategoryChange(category, index)
-
-                                    }
-                                    setFiles={setFiles}
-                                    index={index}// pass setFiles function
-                                />
-
-
-                            </div>
+                            <FilePreviewItem
+                                key={file.name}
+                                file={file}
+                                index={index}
+                                removeFile={removeFile}
+                                handleCategoryChange={handleCategoryChange}
+                            />
                         ))}
                     </div>
-
                 </div>
 
                 {/* Submit/Save Button */}
@@ -195,17 +141,19 @@ const Download = (props) => {
                 >
                     Submit
                 </Button>
+                {/* Admin Panel */}
+                {/* <AdminPanel files={files} deleteFile={deleteFile} renameFile={renameFile} /> */}
 
             </form>
-            {/* Display file details after the form is submitted */}
+
+            {/* Display files details after the form is submitted */}
+
             {showFileDetails && (
                 <section>
                     <ul>{displayFileDetails()}</ul>
                 </section>
             )}
-
         </Container>
-
     );
 };
 
