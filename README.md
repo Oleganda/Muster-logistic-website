@@ -5,9 +5,6 @@
 Users should be able to upload documents for a specified order.  
 Supported document formats: .pdf and .docx.
 Drag and drop functionality possible.
- 
-Methods: Mainly used npm-reactdropzone + videos on Youtube + ChatGPT for explanations of some moments 
-Challenges: To structure everything. In the end it did not have a well structured component, it was hard to read. Had to do everything after
 
 2. Document Categorization:
  
@@ -22,8 +19,6 @@ CMR
  
 For invoices (options 1, 2, and 3), prompt the user to enter the invoice number.
 For Insurance (options 4) and driving License (option 5), request the company name associated with the document.
-
-Challenge: When I upload the second file, information from the first is changing to the same name. Created separated Components with different props.description 
  
 4. Save Function:
  
