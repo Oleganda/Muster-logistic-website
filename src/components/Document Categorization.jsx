@@ -8,45 +8,38 @@ export default function DocumentCategorization({ selectedCategory, onCategoryCha
         onCategoryChange(category, index);
     };
 
-    const getMaxLength = () => {
-        switch (selectedCategory) {
-            case 'Client Invoice':
-            case 'Supplier Invoice':
-            case 'CMR':
-                return 15;
-            case 'Insurance':
-            case 'Driver License':
-                return 10;
-            default:
-                return 5;
-        }
-    };
+    const categoryOptions = [
+        { value: '', label: 'Please classify uploaded document' },
+        { value: 'Client Invoice', label: 'Client Invoice' },
+        { value: 'Supplier Invoice', label: 'Supplier Invoice' },
+        { value: 'CMR', label: 'CMR' },
+        { value: 'Insurance', label: 'Insurance' },
+        { value: 'Driver License', label: 'Driver License' },
+    ];
 
     return (
         <Container>
             <Row>
                 <Col>
                     <Form.Select
-
                         aria-label="Default select example"
                         style={{ borderRadius: '0' }}
                         value={selectedCategory}
                         onChange={handleCategoryChange}
                     >
-
-                        <option value=''>Please classify uploaded document</option>
-                        <option value='Client Invoice'>Client Invoice</option>
-                        <option value='Supplier Invoice'>Supplier Invoice</option>
-                        <option value='CMR'>CMR</option>
-                        <option value='Insurance'>Insurance</option>
-                        <option value='Driver License'>Driver License</option>
+                        {categoryOptions.map((option) => (
+                            <option
+                                key={option.value}
+                                value={option.value}>
+                                {option.label}</option>
+                        ))}
                     </Form.Select>
                 </Col>
-
                 <Col>
                     <Form.Group>
                         <Form.Label >
-                            {selectedCategory === 'Client Invoice' || selectedCategory === 'Supplier Invoice' || selectedCategory === 'CMR'}
+                            {selectedCategory === 'Client Invoice' || selectedCategory === 'Supplier Invoice'
+                                || selectedCategory === 'CMR'}
                         </Form.Label>
                         <Form.Control
                             type="text"
@@ -54,7 +47,6 @@ export default function DocumentCategorization({ selectedCategory, onCategoryCha
                                 ? 'Invoice Number'
                                 : 'Company Name'}
                             style={{ borderRadius: '0', marginTop: '-23px' }}
-                            maxLength={getMaxLength()}
                             required
                         />
                         <Form.Control.Feedback type="invalid">

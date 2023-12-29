@@ -6,7 +6,7 @@ import Header from './Header';
 export default function Questions() {
     const location = useLocation();
 
-    const isFaq = location.pathname === '/about-us' || location.pathname === '/download' || location.pathname === '/admin';
+    const isFaq = location.pathname === '/about-us' || location.pathname === '/files/upload' || location.pathname === '/admin';
 
     if (isFaq) {
         return null;

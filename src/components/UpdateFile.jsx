@@ -1,38 +1,57 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import './downloadFile.css';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const Download = (props) => {
+const UpdateFile = () => {
+    const { id } = useParams()
+    const [values, setValues] = useState({
+        type: "",
+        company: "",
+        invoice: "",
+        client: ""
 
-    const CreateFile = () => {
-        const [values, setValues] = useState({
-            type: "",
-            company: "",
-            invoice: "",
-            client: ""
+    })
+    const navigate = useNavigate()
+    useEffect(() => {
+        axios
+            .get("http://localhost:3002/getrecord/" + id)
+            .then(res => {
+                const data = res.data[0];
+                setValues(prevValues => ({
+                    ...prevValues,
+                    type: data.type || "", // default to empty string if null or undefined
+                    company: data.company || "", // default to empty string if null or undefined
+                    invoice: data.invoice || "", // default to empty string if null or undefined
+                    client: data.client || "" // default to empty string if null or undefined
+                }));
+            })
+            .catch(err => console.log(err));
+    }, []);
 
-        })
-        const navigate = useNavigate()
-        const handleSubmit = (e) => {
-            e.preventDefault()
-            // Validate and convert the invoice value to an integer
-            const invoiceValue = parseInt(values.invoice, 10) || null;
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        // Validate and convert the invoice value to an integer
+        const invoiceValue = parseInt(values.invoice, 10) || null;
 
-            const dataToSubmit = {
-                type: values.type,
-                company: values.company,
-                invoice: invoiceValue, // Convert to integer or set to null if not a valid integer
-                client: values.client
-            };
+        const dataToSubmit = {
+            type: values.type,
+            company: values.company,
+            invoice: invoiceValue, // Convert to integer or set to null if not a valid integer
+            client: values.client
+        };
 
-            axios.post('http://localhost:3002/files/upload', dataToSubmit)
-                .then(res => navigate('/allfiles'))
-                .catch(err => console.log(err))
-        }
-        return (
+        axios.put('http://localhost:3002/update/' + id, dataToSubmit)
+            .then(res => navigate('/admin'))
+            .catch(err => console.log(err))
+    }
+    return (
+        <div>   return (
             <div className='d-flex align-items-center flex-column mt-3'>
+                {/* <div className={'submitSave'} {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {isDragActive ? <p>Drop the files here ...</p> : <p>{props.description}</p>}
+                </div> */}
 
                 <form className="row g-3 needs-validation w-50 text-black" noValidate onSubmit={handleSubmit}>
                     <div className="mb-3 mt-3-4">
@@ -41,6 +60,7 @@ const Download = (props) => {
                             className="form-select"
                             id="validationCustom04"
                             required
+                            value={values.type}
                             onChange={(e) => setValues({ ...values, type: e.target.value })}
                         >
                             <option value="">Select Document Type</option>
@@ -62,6 +82,7 @@ const Download = (props) => {
                             id="companyName"
 
                             name="company"
+                            value={values.company}
                             onChange={(e) => setValues({ ...values, company: e.target.value })}
                             required />
                     </div>
@@ -73,6 +94,7 @@ const Download = (props) => {
                             id="invoiceNumber"
 
                             name="invoice"
+                            value={values.invoice}
                             onChange={(e) => setValues({ ...values, invoice: e.target.value })}
                             required />
                     </div>
@@ -84,6 +106,7 @@ const Download = (props) => {
                             id="clientName"
 
                             name="client"
+                            value={values.client}
                             onChange={(e) => setValues({ ...values, client: e.target.value })}
                             required />
                     </div>
@@ -107,18 +130,14 @@ const Download = (props) => {
                                 borderRadius: '0',
                                 marginTop: '10px',
                             }}
-                        >Submit form </button>
+                        >Update </button>
                     </div>
                 </form></div>
 
 
-        )
-    }
-    return (
-        <Container>
+            )
+        </div>
+    )
+}
 
-            <CreateFile />
-        </Container>
-    );
-};
-export default Download;
+export default UpdateFile

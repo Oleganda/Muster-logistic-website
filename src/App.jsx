@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import AboutUs from './components/AboutUs.jsx';
-import CustomNavbar from './components/Navbar.jsx';
-import MainBanner from './components/Banner.jsx';
-import Header from './components/Header.jsx';
-import Services from './components/Services.jsx';
-import UserInput from './components/UserInput.jsx';
-import Results from './components/Results.jsx';
-import Questions from './components/Faq.jsx';
-import Footer from './components/Footer.jsx';
-import calculateDeliveryPrice from './util/calcualate-price.js';
-import Download from './components/DownloadFiles.jsx';
-import UpButton from './components/UpButton.jsx';
-import SubmitButton from './components/SubmitButton.jsx';
-import AdminPanel from './components/AdminPanel.jsx';
-
+import calculateDeliveryPrice from './util/calculate-price';
+import AboutUs from './components/AboutUs';
+import CustomNavbar from './components/Navbar';
+import MainBanner from './components/Banner';
+import Header from './components/Header';
+import Services from './components/Services';
+import UserInput from './components/UserInput';
+import Results from './components/Results';
+import Questions from './components/Faq';
+import Footer from './components/Footer';
+import Download from './components/DownloadFiles';
+import UpButton from './components/UpButton';
+// import AdminPanel from './components/AdminPanel';
+import Files from './components/Files';
+import UpdateFile from './components/UpdateFile';
 
 function App() {
   const [userInput, setUserInput] = useState({
@@ -34,70 +33,94 @@ function App() {
     }));
   };
 
-  //Remove file as an Admin
   const deleteFile = (index) => {
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles];
       updatedFiles.splice(index, 1);
       return updatedFiles;
-
     });
-    console.log(prevFiles);
-    showButtonAfterSubmit();
+
   };
 
   const renameFile = (index) => {
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles];
       updatedFiles.splice(index, 1);
-      return updatedFiles
-    })
-  }
+      return updatedFiles;
+    });
+  };
 
   return (
     <Router>
       <CustomNavbar />
-      <MainBanner />
 
       <Routes>
+        <Route
+          path='/home'
+          element={
+            <>
+              <MainBanner />
 
+
+            </>
+          }
+        />
         <Route
           path='/about-us'
-          element={<>
-            <Header title='About Us' />
-            <AboutUs
-              img='https://cdn.pixabay.com/photo/2018/03/10/12/00/teamwork-3213924_1280.jpg'
-              text='Our dedicated team of professionals is committed to ensuring seamless and efficient logistics services tailored to meet the unique needs of our clients. With a focus on reliability and innovation, we leverage cutting-edge technology to optimize routes, reduce delivery times, and enhance overall supply chain performance. As a trusted partner in the logistics industry, we prioritize sustainability, implementing eco-friendly practices to reduce our carbon footprint and contribute to a greener future. Customer satisfaction is at the core of our values, and we strive to build lasting partnerships by providing personalized, cost-effective, and timely logistics solutions.'
-            />
-          </>}
+          element={
+            <>
+              <Header title='About Us' />
+              <AboutUs
+                img='https://cdn.pixabay.com/photo/2018/03/10/12/00/teamwork-3213924_1280.jpg'
+                text='Our dedicated team of professionals is committed to ensuring seamless and efficient logistics services tailored to meet the unique needs of our clients. With a focus on reliability and innovation, we leverage cutting-edge technology to optimize routes, reduce delivery times, and enhance overall supply chain performance. As a trusted partner in the logistics industry, we prioritize sustainability, implementing eco-friendly practices to reduce our carbon footprint and contribute to a greener future. Customer satisfaction is at the core of our values, and we strive to build lasting partnerships by providing personalized, cost-effective, and timely logistics solutions.'
+              />
+            </>
+          }
+        />
+        <Route path='/allfiles'
+          element={<Files />}>
+
+
+        </Route>
+
+        <Route path='/update/:id'
+          element={<UpdateFile />}>
+
+
+        </Route>
+        <Route
+          path='/files/upload'
+          element={
+            <>
+              <Header title='Upload your file' />
+              <Download
+                description='Click to select multiple files or use drag-and-drop (.pdf or .docx)'
+                uploadedFiles={uploadedFiles}
+                setUploadedFiles={setUploadedFiles}
+                deleteFile={deleteFile}
+                renameFile={renameFile}
+              />
+            </>
+          }
         />
 
-
-        <Route
-          path='/download'
-          element={<>
-            <Header title='Drop your file' />
-            <Download description='Click to select multiple files or use drag-and-drop (.pdf or .docx)'
-              uploadedFiles={uploadedFiles}
-              setUploadedFiles={setUploadedFiles}
-              deleteFile={deleteFile}
-              renameFile={renameFile}
-            />
-
-          </>
-          } />
-        {/* Admin Panel */}
         <Route
           path='/admin'
-          element={<>
-            <AdminPanel files={files}
-              deleteFile={deleteFile}
-              renameFile={renameFile} />
-
-          </>} />
-
+          element={
+            <>
+              <Files />
+            </>
+          }
+        />
+        <Route
+          path='/update'
+          element={
+            <>
+              <UpdateFile />
+            </>
+          }
+        />
       </Routes>
-
 
       <Services
         servicesData={[
@@ -124,7 +147,6 @@ function App() {
       <Questions />
       <UpButton />
       <Footer />
-
     </Router>
   );
 }

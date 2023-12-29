@@ -1,0 +1,9 @@
+.submitSave {
+    border: 2px dashed rgb(204, 204, 204);
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

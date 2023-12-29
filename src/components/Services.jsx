@@ -9,7 +9,7 @@ export default function Services({ servicesData }) {
 
     const location = useLocation();
 
-    const isServicesPage = location.pathname === '/about-us' || location.pathname === '/download' || location.pathname === '/admin';
+    const isServicesPage = location.pathname === '/about-us' || location.pathname === '/files/upload' || location.pathname === '/admin';
 
     if (isServicesPage) {
         return null;
@@ -43,4 +43,3 @@ export default function Services({ servicesData }) {
         </Container>
     );
 }
-

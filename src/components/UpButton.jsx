@@ -24,7 +24,7 @@ export default function UpButton() {
 
     return (
         <Button
-            href="/#navbar"
+            href="/home"
             style={{
                 backgroundColor: 'white',
                 borderRadius: '0',
