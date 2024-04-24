@@ -71,7 +71,7 @@ function App() {
             <>
               <Header title='About Us' />
               <AboutUs
-                img='https://cdn.pixabay.com/photo/2018/03/10/12/00/teamwork-3213924_1280.jpg'
+                img='https://img.freepik.com/free-photo/delivery-men-loading-carboard-boxes-in-a-van-while-getting-ready-for-the-shipment_637285-2289.jpg?w=1480&t=st=1707897111~exp=1707897711~hmac=fbe51c5a4caf1de9288a7b5d9283df9fe810eacfbcfa8eb3576d62ac76953e6b'
                 text='Our dedicated team of professionals is committed to ensuring seamless and efficient logistics services tailored to meet the unique needs of our clients. With a focus on reliability and innovation, we leverage cutting-edge technology to optimize routes, reduce delivery times, and enhance overall supply chain performance. As a trusted partner in the logistics industry, we prioritize sustainability, implementing eco-friendly practices to reduce our carbon footprint and contribute to a greener future. Customer satisfaction is at the core of our values, and we strive to build lasting partnerships by providing personalized, cost-effective, and timely logistics solutions.'
               />
             </>
@@ -120,23 +120,25 @@ function App() {
             </>
           }
         />
+
+
       </Routes>
 
       <Services
         servicesData={[
           {
-            img: 'https://cdn.pixabay.com/photo/2018/12/05/12/06/container-3857611_1280.jpg',
+            img: 'https://img.freepik.com/free-photo/industrial-port-and-container-yard_1112-1202.jpg?w=1480&t=st=1707897161~exp=1707897761~hmac=7c66ffaa9175e92a227341139c3dfee9a3c2e8131976f83585c523e64be9ccf3',
             title: 'Order picking',
             text: 'When a shipping order comes in, we assemble the products from the warehouse. Naturally, this process is not the same for large, bulky objects as for small products with high unit numbers. Every product takes the most efficient route to the order picking station.',
           },
 
           {
-            img: 'https://cdn.pixabay.com/photo/2018/05/11/23/45/highway-3392100_1280.jpg',
+            img: 'https://img.freepik.com/free-photo/workman-at-store-house-in-orange-helmet_1303-28088.jpg?w=1480&t=st=1707897182~exp=1707897782~hmac=7f53782dffaf7c072de0fc44f1a883a02b64a1bf7b55211146736a91b35e9803',
             title: 'Pick-up service',
             text: 'We don’t just ship goods for you; we can also pick them up – internationally. We organise the price-effective collection of your products or resources from your suppliers nationally and abroad. You can absolutely trust us and our partners, we have may years of experience',
           },
           {
-            img: 'https://cdn.pixabay.com/photo/2017/08/24/16/07/truck-2677373_1280.jpg',
+            img: 'https://img.freepik.com/free-photo/a-large-warehouse-with-a-large-truck-in-the-middle-of-it_123827-23504.jpg?w=1480&t=st=1707897216~exp=1707897816~hmac=781cfff1b2d8c7538eeb4499bd124161710270368d9bc574dab422241ebd0070',
             title: 'Transport and shipment',
             text: 'Your products should reach their intended recipient quickly, cheaply and safely. We select the best parcel delivery service or the most fitting shipping company for you and only release your products into the competent hands of our carefully chosen collaborating partners.',
           },

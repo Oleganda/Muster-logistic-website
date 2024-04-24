@@ -16,6 +16,7 @@ export default function CustomNavbar() {
                     <Nav.Link as={Link} to="/about-us">About Us</Nav.Link>
                     <Nav.Link as={Link} to="/files/upload">Make a New Order</Nav.Link>
                     <Nav.Link as={Link} to="/admin">Admin daschboard</Nav.Link>
+                    <Nav.Link as={Link} to="/pdfupload">PDF Manager</Nav.Link>
                 </Nav>
             </Container>
         </BootstrapNavbar>

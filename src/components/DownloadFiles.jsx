@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './downloadFile.css';
 import axios from 'axios';
+import FileUploader from './FileUploader';
 
 const Download = (props) => {
 
@@ -11,9 +12,13 @@ const Download = (props) => {
             type: "",
             company: "",
             invoice: "",
-            client: ""
+            client: "",
+            name: ""
 
         })
+
+        const [uploadedFiles, setUploadedFiles] = useState([]);
+
         const navigate = useNavigate()
         const handleSubmit = (e) => {
             e.preventDefault()
@@ -27,16 +32,24 @@ const Download = (props) => {
                 client: values.client
             };
 
+            //combine dataToSubmit with uploadedFiles before making the request
+            const finalData = { ...dataToSubmit, files: uploadedFiles };
+
             axios.post('http://localhost:3002/files/upload', dataToSubmit)
                 .then(res => navigate('/allfiles'))
                 .catch(err => console.log(err))
         }
+        const handleFileUpload = (files) => {
+            setUploadedFiles(files);
+        };
         return (
             <div className='d-flex align-items-center flex-column mt-3'>
-
                 <form className="row g-3 needs-validation w-50 text-black" noValidate onSubmit={handleSubmit}>
+                    <FileUploader onFileUpload={handleFileUpload}
+                        onChange={(e) => setValues({ ...values, name: e.target.value })} />
+
                     <div className="mb-3 mt-3-4">
-                        <label htmlFor="validationCustom04" className="form-label">Uploaded Document</label>
+
                         <select
                             className="form-select"
                             id="validationCustom04"
